@@ -1,0 +1,6 @@
+- hosts: all
+  connection: local
+  vars_files:
+    - tmpvars/{{ customer }}.yml
+  roles:
+    - addtoinventory

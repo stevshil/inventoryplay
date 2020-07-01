@@ -1,0 +1,16 @@
+- name: Show data
+  debug:
+    msg:
+      - "Customer: {{ customer_domain }}"
+      - "Data: {{ec2}}"
+
+- name: Remove host to inventory
+  lineinfile:
+    dest: "{{ playbook_dir }}/environment/hosts"
+    state: absent
+    regexp: "customer_domain={{ customer_domain }}"
+  when: "'{{ customer_domain }}' in groups.wordpress"
+  with_items: "groups['wordpress']"
+
+- name: Refresh inventory in memory
+  meta: refresh_inventory

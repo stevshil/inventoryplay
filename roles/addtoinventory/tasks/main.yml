@@ -1,0 +1,16 @@
+- name: Show data
+  debug:
+    msg:
+      - "Customer: {{ customer_domain }}"
+      - "Data: {{ec2}}"
+
+- name: Add host to inventory
+  lineinfile:
+    dest: "{{ playbook_dir }}/environment/hosts"
+    insertafter: EOF
+    line: "{{ item.public_dns_name }} private_ip={{ item.private_ip_address }} instance_id={{ item.instance_id }} customer_domain={{ customer_domain }}"
+  when: "'{{ customer_domain }}' not in groups.wordpress"
+  with_items: "{{ ec2.instances }}"
+
+- name: Refresh inventory in memory
+  meta: refresh_inventory

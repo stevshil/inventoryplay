@@ -1,0 +1,5 @@
+ec2:
+  instances:
+    - public_dns_name: steve.example.com
+      private_ip_address: 172.31.0.2
+      instance_id: i-12324843344
